@@ -1,0 +1,29 @@
+<?php
+	$banners = $this->getBanners();
+	
+	if ( ! empty($banners))
+	{
+		echo '<div class="grid_12">';
+		echo '<div class="slidprev"><span>Prev</span></div> <div class="slidnext"><span>Next</span></div>';
+		echo '<div id="slider">';
+		foreach ($banners as $banner)
+		{
+			echo '<div class="slide">';
+			echo '<img src="'.$banner['imageUrl'].'" alt="'.$banner['title'].'" />';
+			echo '<div class="slid_text">';
+			echo '<h3 class="slid_title"><span>'.$banner['title'].'</span></h3>';
+			echo '</div>';
+			echo '<p class="description"><span><a href="'.$banner['url'].'" title="'.$banner['title'].'">'.$banner['description'].'</a></span></p>';
+			echo '</div>';
+		}
+		echo '</div>';
+		echo '<div id="myController">';
+		foreach ($banners as $key => $banner)
+		{
+			echo '<div class="control"><span>'.$key.'</span></div>';
+		}
+		echo '</div>';
+		echo '</div>';
+		echo '<div class="clear">&nbsp;</div>';
+	}
+?>

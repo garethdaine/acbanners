@@ -1,0 +1,98 @@
+/*
+ *
+ * Slider
+ * 
+ */
+
+div.slid_text {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	background: none;
+	width: 200px;
+}
+
+.slid_text .slid_title span {
+	background: none;
+	line-height: 40px;
+}
+
+p.description {
+	position: absolute;
+	bottom: 20px;
+	left: 20px;
+	background: none;
+	font-size: 16px;
+	width: 285px;
+}
+
+p.description a {
+	color: #000000;
+	text-decoration: none;
+}
+
+div.slid_text h3.slid_title,
+div.slid_text p {
+	padding: 0;
+	margin: 0;
+}
+
+div.slid_text h3.slid_title span {
+	color: #000000;
+	font-weight: bold;
+	padding: 0;
+}
+
+div.slid_text p,
+div.slid_text p span {
+	padding: 0;
+}
+
+div.slid_text p span a {
+	text-decoration: none;
+}
+
+
+/*
+ *
+ * Banner Buttons
+ * 
+ */
+
+a.button_block {
+	position: relative;
+	border-radius: 3px;
+	border: none;
+}
+
+a.button_block:hover {
+	background: #009AD5;
+	border: none;
+}
+
+a.button_block:hover img {
+	opacity: 0.2;
+}
+
+a.button_block span.info {
+	position: absolute;
+	top: 40%;
+	left: 10%;
+	background: #ffffff;
+	padding: 10px;
+	opacity: 0.8;
+	border-radius: 3px;
+}
+
+a.button_block h3.title {
+	color: #000000;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 0;
+}
+
+a.button_block span.description {
+	font-size: 13px;
+	padding: 10px 0 5px;
+	display: block;
+}

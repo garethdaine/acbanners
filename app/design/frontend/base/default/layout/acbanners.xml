@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <cms_index_index>
+		<reference name="head">
+			<action method="addCss"><stylesheet>affinitycloud/acbanners/css/acbanners.css</stylesheet></action>
+        </reference>
+        <reference name="content">
+            <block type="acbanners/slider" name="slider" template="affinitycloud/acbanners/slider.phtml" />
+            <block type="acbanners/buttons" name="buttons" template="affinitycloud/acbanners/buttons.phtml" />
+        </reference>
+    </cms_index_index>
+    <default>
+        <reference name="left">
+            <block type="acbanners/sidebanners" name="sidebanners" template="affinitycloud/acbanners/sidebanners.phtml" />
+        </reference>
+    </default>
+</layout>
