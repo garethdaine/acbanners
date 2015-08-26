@@ -1,11 +1,12 @@
 <?php
  
-class AffinityCloud_Acbanners_Block_Adminhtml_Acbanners_Grid extends Mage_Adminhtml_Block_Widget_Grid
-{
+class AffinityCloud_Acbanners_Block_Adminhtml_Acbanners_Grid extends Mage_Adminhtml_Block_Widget_Grid {
     public function __construct()
     {
         parent::__construct();
+
         $this->setId('acbannersGrid');
+        
         // This is the primary key of the database
         $this->setDefaultSort('id');
         $this->setDefaultDir('ASC');
@@ -17,95 +18,88 @@ class AffinityCloud_Acbanners_Block_Adminhtml_Acbanners_Grid extends Mage_Adminh
     {
         $collection = Mage::getModel('acbanners/acbanners')->getCollection();
         $this->setCollection($collection);
+
         return parent::_prepareCollection();
     }
  
     protected function _prepareColumns()
     {
-        $this->addColumn('id', array(
-            'header'    => Mage::helper('acbanners')->__('Banner ID'),
-            'align'     =>'right',
-            'width'     => '50px',
-            'index'     => 'id',
-        ));
+        $this->addColumn('id', [
+            'header' => Mage::helper('acbanners')->__('Banner ID'),
+            'align' =>'right',
+            'width' => '50px',
+            'index' => 'id'
+        ]);
  
-        $this->addColumn('image', array(
-            'header'    => Mage::helper('acbanners')->__('Banner'),
-            'align'     =>'left',
-            'filter'    => false,
-            'index'     => 'image',
-            'renderer'  => 'acbanners/adminhtml_acbanners_grid_renderer_image',
-            'width'     => '200px'
-        ));
+        $this->addColumn('image', [
+            'header' => Mage::helper('acbanners')->__('Banner'),
+            'align' =>'left',
+            'filter' => false,
+            'index' => 'image',
+            'renderer' => 'acbanners/adminhtml_acbanners_grid_renderer_image',
+            'width' => '200px'
+        ]);
  
-        $this->addColumn('title', array(
+        $this->addColumn('title', [
             'header'    => Mage::helper('acbanners')->__('Title'),
             'align'     =>'left',
             'index'     => 'title',
-        ));
+        ]);
  
-        $this->addColumn('description', array(
+        $this->addColumn('description', [
             'header'    => Mage::helper('acbanners')->__('Description'),
             'align'     =>'left',
             'index'     => 'description',
-        ));
+        ]);
  
-        $this->addColumn('url', array(
+        $this->addColumn('url', [
             'header'    => Mage::helper('acbanners')->__('Banner URL'),
             'align'     =>'left',
             'index'     => 'url',
-        ));
+        ]);
  
-        /*
-        $this->addColumn('content', array(
-            'header'    => Mage::helper('banners')->__('Item Content'),
-            'width'     => '150px',
-            'index'     => 'content',
-        ));
-        */
- 
-        $this->addColumn('created_time', array(
+        $this->addColumn('created_time', [
             'header'    => Mage::helper('acbanners')->__('Creation Time'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
             'default'   => '--',
             'index'     => 'created_time',
-        ));
+        ]);
  
-        $this->addColumn('update_time', array(
+        $this->addColumn('update_time', [
             'header'    => Mage::helper('acbanners')->__('Update Time'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
             'default'   => '--',
             'index'     => 'update_time',
-        ));   
+        ]);   
  
  
-        $this->addColumn('status', array(
+        $this->addColumn('status', [
             'header'    => Mage::helper('acbanners')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'status',
             'type'      => 'options',
-            'options'   => array(
+            'options'   => [
                 1 => 'Active',
                 0 => 'Inactive',
-            ),
-        ));
+            ],
+        ]);
  
         return parent::_prepareColumns();
     }
  
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/edit', array('id' => $row->getId()));
+        return $this->getUrl('*/*/edit', ['id' => $row->getId()]);
     }
  
     public function getGridUrl()
     {
-      return $this->getUrl('*/*/grid', array('_current'=>true));
+      return $this->getUrl('*/*/grid', ['_current' => true]);
     }
  
  

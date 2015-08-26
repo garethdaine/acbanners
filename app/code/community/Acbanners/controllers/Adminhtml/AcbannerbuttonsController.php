@@ -1,17 +1,17 @@
 <?php
  
-class AffinityCloud_Acbanners_Adminhtml_AcbannerbuttonsController extends Mage_Adminhtml_Controller_Action
-{
- 
+class AffinityCloud_Acbanners_Adminhtml_AcbannerbuttonsController extends Mage_Adminhtml_Controller_Action {
     protected function _initAction()
     {
         $this->loadLayout()
             ->_setActiveMenu('acbanners/items')
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('Banners Manager'), Mage::helper('adminhtml')->__('Banner Manager'));
+        
         return $this;
     }   
    
-    public function indexAction() {
+    public function indexAction()
+    {
         $this->_initAction();       
         $this->_addContent($this->getLayout()->createBlock('acbanners/adminhtml_acbannerbuttons'));
         $this->renderLayout();
@@ -22,9 +22,7 @@ class AffinityCloud_Acbanners_Adminhtml_AcbannerbuttonsController extends Mage_A
         $bannersId = $this->getRequest()->getParam('id');
         $bannersModel = Mage::getModel('acbanners/acbannerbuttons')->load($bannersId);
  
-        if ($bannersModel->getId() || $bannersId == 0)
-        {
-
+        if ($bannersModel->getId() || $bannersId == 0) {
             Mage::register('acbanners_data', $bannersModel);
  
             $this->loadLayout();
@@ -38,9 +36,7 @@ class AffinityCloud_Acbanners_Adminhtml_AcbannerbuttonsController extends Mage_A
             $this->_addContent($this->getLayout()->createBlock('acbanners/adminhtml_acbannerbuttons_edit'))->_addLeft($this->getLayout()->createBlock('acbanners/adminhtml_acbannerbuttons_edit_tabs'));
                
             $this->renderLayout();
-        }
-        else
-        {
+        } else {
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('acbanners')->__('Banner does not exist'));
 
             $this->_redirect('*/*/');
@@ -51,19 +47,22 @@ class AffinityCloud_Acbanners_Adminhtml_AcbannerbuttonsController extends Mage_A
     {
         $this->_forward('edit');
     }
-   
+
+    /**
+     * Need to refactor and tidy up nested if statements. Also abstract code in to more modular methods
+     * 
+     * @return [type] [description]
+     */
     public function saveAction()
     {
-        $imageData = array();
+        $imageData = [];
 
-        if ( ! empty($_FILES['image']['name']))
-        {
-            try
-            {
+        if ( ! empty($_FILES['image']['name'])) {
+            try {
                 $ext = substr($_FILES['image']['name'], strrpos($_FILES['image']['name'], '.') + 1);
                 $fileName = 'banner-' . time() . '.' . $ext;
                 $uploader = new Varien_File_Uploader('image');
-                $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png')); // or pdf or anything
+                $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
 
                 $uploader->setAllowRenameFiles(true);
                 $uploader->setFilesDispersion(false);
@@ -73,35 +72,25 @@ class AffinityCloud_Acbanners_Adminhtml_AcbannerbuttonsController extends Mage_A
                 $uploader->save($path, $fileName);
 
                 $imageData['image'] = 'acbannerbuttons/'.$fileName;
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 return $this->error($e);
             }
         }
 
         $data = $this->getRequest()->getPost();
 
-        if ($data)
-        {
-            if ( ! empty($imageData['image']))
-            {
+        if ($data) {
+            if ( ! empty($imageData['image'])) {
                 $data['image'] = $imageData['image'];
-            }
-            else
-            {
-                if (isset($data['image']['delete']) && $data['image']['delete'] == 1)
-                {
-                    if ($data['image']['value'] != '')
-                    {
+            } else {
+                if (isset($data['image']['delete']) && $data['image']['delete'] == 1) {
+                    if ($data['image']['value'] != '') {
                         $_helper = Mage::helper('acbanners');
                         $this->removeFile(Mage::getBaseDir('media').DS.$_helper->updateDirSepereator($data['image']['value']));
                     }
 
                     $data['image'] = '';
-                }
-                else
-                {
+                } else {
                     $data['image'] = $data['image']['value'];
                 }
             }
@@ -118,14 +107,10 @@ class AffinityCloud_Acbanners_Adminhtml_AcbannerbuttonsController extends Mage_A
                 ->setStatus($data['status'])
                 ->save();
 
-            try
-            {
-                if ($bannersModel->getCreatedTime == NULL || $bannersModel->getUpdateTime() == NULL)
-                {
+            try {
+                if ($bannersModel->getCreatedTime == NULL || $bannersModel->getUpdateTime() == NULL) {
                     $bannersModel->setCreatedTime(now())->setUpdateTime(now());
-                }
-                else
-                {
+                } else {
                     $bannersModel->setUpdateTime(now());
                 }
 
@@ -134,45 +119,41 @@ class AffinityCloud_Acbanners_Adminhtml_AcbannerbuttonsController extends Mage_A
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('acbanners')->__('Banner was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
 
-                if ($this->getRequest()->getParam('back'))
-                {
+                if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/edit', array('id' => $bannersModel->getId()));
+                    
                     return;
                 }
 
                 $this->_redirect('*/*/');
+                
                 return;
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 return $this->error($e);
             }
         }
 
         Mage::getSingleton('adminhtml/session')->addError(Mage::helper('acbanners')->__('Unable to find banner to save'));
+        
         $this->_redirect('*/*/');
     }
 
     protected function removeFile($file)
     {
-        try
-        {
+        try {
             $io = new Varien_Io_File();
 
-            if ( ! is_dir($file) && file_exists($file))
-            {
+            if ( ! is_dir($file) && file_exists($file)) {
                 $result = $io->rmdir($file, true);
             }
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             return $this->error($e);
         }
     }
    
     public function deleteAction()
     {
-        if( $this->getRequest()->getParam('id') > 0 ) {
+        if ( $this->getRequest()->getParam('id') > 0 ) {
             try {
                 $bannersModel = Mage::getModel('acbanners/acbannerbuttons');
                
@@ -180,11 +161,13 @@ class AffinityCloud_Acbanners_Adminhtml_AcbannerbuttonsController extends Mage_A
                     ->delete();
                    
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Banner was successfully deleted'));
+                
                 $this->_redirect('*/*/');
             } catch (Exception $e) {
                 return $this->error($e);
             }
         }
+
         $this->_redirect('*/*/');
     }
     /**
@@ -194,9 +177,7 @@ class AffinityCloud_Acbanners_Adminhtml_AcbannerbuttonsController extends Mage_A
     public function gridAction()
     {
         $this->loadLayout();
-        $this->getResponse()->setBody(
-               $this->getLayout()->createBlock('acbanners/adminhtml_acbannerbuttons_grid')->toHtml()
-        );
+        $this->getResponse()->setBody($this->getLayout()->createBlock('acbanners/adminhtml_acbannerbuttons_grid')->toHtml());
     }
 
     public function error($e)
@@ -204,7 +185,8 @@ class AffinityCloud_Acbanners_Adminhtml_AcbannerbuttonsController extends Mage_A
         Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         Mage::getSingleton('adminhtml/session')->setACBannersData($this->getRequest()->getPost());
 
-        $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
+        $this->_redirect('*/*/edit', ['id' => $this->getRequest()->getParam('id')]);
+        
         return;
     }
 }
