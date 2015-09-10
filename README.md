@@ -1,4 +1,4 @@
-# AC Banners
+# AC Banners (Requires PHP 5.4+)
 
 A banner extension for Magento 1.9 using NivoSlider and integrated for use with Bootstrap 3.
 
