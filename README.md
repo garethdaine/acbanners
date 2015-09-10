@@ -26,9 +26,11 @@ Copy the 'app' and 'skin' folders to your Magento root directory.
 
 Once you have copied all files to your Magento root, log out of the admin and log back in to enable the plugin.
 
-To setup the plugin correctly you must make sure that jQuery is setup to use no conflict mode:
+To setup the plugin correctly you must make sure that jQuery is setup to use no conflict mode within your themes primary JavaScript file:
 
-`jQuery.noConflict()`
+`$j = jQuery.noConflict();`
+
+If you are already using jQuery in no conflict mode, then please ignore this part.
 
 ## Frontend Usage
 
